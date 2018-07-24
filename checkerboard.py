@@ -116,7 +116,7 @@ class CheckerBoard:
             board_string += boundary
         return board_string
 
-    def judge(self, color, win_length):
+    def judge(self, color, win_length=3):
         if color == 1:
             locations = self.white_locations
         elif color == -1:

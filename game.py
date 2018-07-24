@@ -1,14 +1,13 @@
-from player import Player
-from checkboard import CheckerBoard, Location as _
+from player import *
+from checkerboard import CheckerBoard, Location as _
 
 
 class Game:
-    def __init__(self, size: tuple, win_length: int, p1_type=Player,
-                 p2_type=Player):
-        self.win_length = win_length
+    def __init__(self, size: tuple, p1,
+                 p2):
         self.checkerboard = CheckerBoard(size)
-        self.p1 = p1_type(1)
-        self.p2 = p2_type(-1)
+        self.p1 = p1
+        self.p2 = p2
 
     def __str__(self):
         return str(self.checkerboard)
@@ -19,9 +18,10 @@ class Game:
             try:
                 loc = player.next_loc(self.checkerboard)
                 self.checkerboard.move(player.color, loc)
-            except:
+            except Exception as ex:
+                print(repr(ex))
                 return 0
-            if self.checkerboard.judge(player.color, self.win_length):
+            if self.checkerboard.judge(player.color):
                 return player.color
             player = self._next(player)
 
@@ -31,14 +31,27 @@ class Game:
         else:
             return self.p1
 
+    def refresh(self):
+        self.checkerboard = CheckerBoard(self.checkerboard.size)
 
-def caculate_win_times(times):
+
+def caculate_win_times(times, game):
     res = {1: 0, -1: 0, 0: 0}
     for i in range(times):
-        g = Game((5, 5), 3)
-        res[g.play()] += 1
+        res[game.play()] += 1
+        print(g)
+        game.refresh()
     return res
 
 
 if __name__ == "__main__":
-    print(caculate_win_times(10000))
+    import time
+
+    # start = time.time()
+    # print(caculate_win_times(10))
+    # end = time.time()
+    # print(end - start)
+    p1 = MCTSPlayer(1, 500)
+    p2 = Player(-1)
+    g = Game((3, 3), p1, p2)
+    print(g.play())
