@@ -149,7 +149,8 @@ class CheckerBoard:
         else:
             raise Exception
 
-    def to_numpy(self):
+    @property
+    def state(self):
         board = numpy.zeros(self.size, dtype=int)
         for loc in self.black_locations:
             board[loc()] = -1
@@ -157,16 +158,17 @@ class CheckerBoard:
             board[loc()] = 1
         return board
 
-    def from_numpy(self, board):
-        self.size = (board.shape[0], board.shape[1])
+    @state.setter
+    def state(self, state):
+        self.size = (state.shape[0], state.shape[1])
         self.white_locations = set()
         self.black_locations = set()
         self.empty_locations = set()
         for i in range(self.size[0]):
             for j in range(self.size[1]):
-                if board[i, j] == 1:
+                if state[i, j] == 1:
                     self.white_locations.add(_(i, j))
-                elif board[i, j] == -1:
+                elif state[i, j] == -1:
                     self.black_locations.add(_(i, j))
                 else:
                     self.empty_locations.add(_(i, j))

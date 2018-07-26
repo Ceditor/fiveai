@@ -18,8 +18,8 @@ class Game:
             try:
                 loc = player.next_loc(self.checkerboard)
                 self.checkerboard.move(player.color, loc)
+                print(self.checkerboard)
             except Exception as ex:
-                print(repr(ex))
                 return 0
             if self.checkerboard.judge(player.color):
                 return player.color
@@ -51,7 +51,7 @@ if __name__ == "__main__":
     # print(caculate_win_times(10))
     # end = time.time()
     # print(end - start)
-    p1 = MCTSPlayer(1, 500)
+    p1 = MCTSPlayer(1, 1000)
     p2 = Player(-1)
-    g = Game((3, 3), p1, p2)
+    g = Game((4, 4), p1, p2)
     print(g.play())
