@@ -116,25 +116,22 @@ class CheckerBoard:
             board_string += boundary
         return board_string
 
-    def judge(self, color, win_length=3):
+    def judge(self, color, win_length=5):
         if color == 1:
             locations = self.white_locations
         elif color == -1:
             locations = self.black_locations
         else:
             raise Exception
-        for i in range(self.size[0]):
-            for j in range(self.size[1]):
-                location = _(i, j)
-                if location in locations:
-                    for arrow in self.arrows:
-                        length = 1
-                        location = _(i, j) + arrow
-                        while location in locations:
-                            length += 1
-                            if length >= win_length:
-                                return True
-                            location += arrow
+        for base_location in locations:
+            for arrow in self.arrows:
+                length = 1
+                location = base_location + arrow
+                while location in locations:
+                    length += 1
+                    if length >= win_length:
+                        return True
+                    location += arrow
         return False
 
     def move(self, color: int, location: Location):

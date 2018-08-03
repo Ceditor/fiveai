@@ -53,5 +53,5 @@ if __name__ == "__main__":
     # print(end - start)
     p1 = MCTSPlayer(1, 1000)
     p2 = Player(-1)
-    g = Game((4, 4), p1, p2)
+    g = Game((9, 9), p1, p2)
     print(g.play())

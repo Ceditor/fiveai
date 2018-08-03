@@ -1,14 +1,13 @@
-from checkerboard import CheckerBoard, Location as _
+from checkerboard import CheckerBoard, Location
 from MCTS import MCTSNode
 import random
-import numpy as np
 
 
 class Player:
-    def __init__(self, color):
+    def __init__(self, color: int):
         self.color = color
 
-    def next_loc(self, checkerboard: CheckerBoard):
+    def next_loc(self, checkerboard: CheckerBoard) -> Location:
         if len(checkerboard.empty_locations) > 0:
             loc = random.sample(checkerboard.empty_locations, 1)[0]
             return loc
@@ -21,7 +20,7 @@ class DeepSearchPlayer(Player):
         super().__init__(color)
         self.depth = depth
 
-    def next_loc(self, checkerboard: CheckerBoard):
+    def next_loc(self, checkerboard: CheckerBoard) -> Location:
         wins = {}
         state = checkerboard.state
         if len(checkerboard.empty_locations) > 0:
@@ -35,7 +34,7 @@ class DeepSearchPlayer(Player):
         else:
             raise Exception
 
-    def simulate(self, checkerboard: CheckerBoard, loc: _, color: int,
+    def simulate(self, checkerboard: CheckerBoard, loc: Location, color: int,
                  depth: int):
         res = {1: 0, -1: 0, 0: 0}
         checkerboard.move(color, loc)
